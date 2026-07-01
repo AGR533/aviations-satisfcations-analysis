@@ -66,8 +66,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 jupyter lab
 ```
-Then open `airline-passenger-satisfaction-part-1.ipynb` (or the main analysis notebook) and run
-all cells.
+ 
 
 ## Reflection
 - **What was easy:** exploratory analysis and visualization, since the dataset was already clean
