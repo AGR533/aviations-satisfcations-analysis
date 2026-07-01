@@ -31,17 +31,23 @@ estimates their likely satisfaction — helping identify which service areas mos
      (χ² ≈ 32,906, p < 0.001)
    - Independent t-test confirming satisfied passengers are, on average, significantly older
      than dissatisfied passengers (t ≈ 48.76, p < 0.001)
-5. **Modeling** — trained a Random Forest classifier to predict Satisfaction from passenger and
-   service features.
+5. **Modeling** — trained and compared six classifiers to predict Satisfaction from passenger and
+   service features: Random Forest, XGBoost, AdaBoost, Logistic Regression, KNN, and SVC.
 
 ## Results
-The Random Forest model achieved:
-- **Accuracy:** 96.3%
-- **Precision:** 97.1%
-- **Recall:** 94.1%
 
-This substantially outperforms the ~57% baseline of simply guessing the majority class,
-confirming that satisfaction can be predicted reliably from the available data.
+| Model | Accuracy | Precision | Recall |
+|---|---|---|---|
+| XGBoost | 96.4% | 97.1% | 94.5% |
+| Random Forest | 96.3% | 97.1% | 94.1% |
+| AdaBoost | 92.3% | 92.0% | 90.0% |
+| Logistic Regression | 87.4% | 86.7% | 83.8% |
+| KNN | 74.7% | 76.2% | 60.6% |
+| SVC | 59.8% | 75.9% | 10.5% |
+
+XGBoost and Random Forest substantially outperform the ~57% baseline of guessing the majority
+class, confirming satisfaction can be predicted reliably. Tree-based ensembles clearly outperform
+distance-based methods (KNN, SVC), which are sensitive to unscaled features.
 
 ## Key Findings
 - Business class passengers are mostly satisfied; Economy passengers are overwhelmingly
@@ -50,6 +56,8 @@ confirming that satisfaction can be predicted reliably from the available data.
   travelers.
 - Departure/Arrival Delay shows a weaker relationship with satisfaction than service-quality
   factors.
+- Model choice matters: tree-based ensembles (XGBoost, Random Forest, AdaBoost) handle this
+  dataset's mixed feature scales far better than distance-based models (KNN, SVC).
 
 ## How to Run
 ```bash
@@ -68,8 +76,8 @@ all cells.
   visualization, and modeling steps without breaking earlier cells.
 
 ## Next Steps
-- Expand the model comparison (e.g. logistic regression, gradient boosting) and tune
-  hyperparameters.
+- Tune XGBoost hyperparameters for further gains beyond the current 96.4% accuracy.
+- Apply feature scaling improvements to boost KNN and SVC performance.
 - Wrap the trained model in a small interactive app so a user can input passenger details and get
   a live satisfaction prediction.
 - Publish the project via GitHub Pages for a public-facing summary.
