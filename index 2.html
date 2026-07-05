@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agrima Sharma - Aviation Passenger Satisfaction Analytics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="styles.css" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+</head>
+
+<body class="bg-white text-ink font-body min-h-screen flex flex-col antialiased pt-20">
+
+  <!-- Floating Dynamic Island Navbar -->
+  <div class="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-full max-w-lg px-4">
+    <header id="dynamic-island"
+      class="pointer-events-auto bg-nearBlack/90 backdrop-blur-xl border border-white/10 rounded-full px-2 py-1.5 shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-[1.02] hover:bg-nearBlack">
+      <nav class="flex items-center gap-1 w-full justify-between">
+        <button id="tab-btn-dashboard" onclick="switchTab('dashboard')"
+          class="tab-btn px-4 py-2 text-[11px] md:text-xs font-semibold rounded-full bg-white text-nearBlack transition-all duration-300 cursor-pointer select-none">
+          Overall Dashboard
+        </button>
+        <button id="tab-btn-customize" onclick="switchTab('customize')"
+          class="tab-btn px-4 py-2 text-[11px] md:text-xs font-medium rounded-full bg-transparent text-mutedSlate hover:text-white transition-all duration-300 cursor-pointer select-none">
+          Customization
+        </button>
+        <button id="tab-btn-docs" onclick="switchTab('docs')"
+          class="tab-btn px-4 py-2 text-[11px] md:text-xs font-medium rounded-full bg-transparent text-mutedSlate hover:text-white transition-all duration-300 cursor-pointer select-none">
+          Documentation
+        </button>
+      </nav>
+    </header>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="hero-section" class="bg-white py-12 md:py-16 border-b border-hairline block">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="max-w-3xl">
+        <span class="font-mono text-xs uppercase tracking-widest text-coral font-bold mb-3 block">Executive Data
+          Diagnostics</span>
+        <h1 class="font-display text-4xl md:text-6xl font-bold tracking-tighter text-cohereBlack leading-none mb-4">
+          Aviation Passenger Satisfaction
+        </h1>
+        <p class="font-display text-lg md:text-xl text-slate font-light leading-relaxed">
+          Analyzing 129,880 passenger survey responses to isolate critical service friction points, map demographic
+          satisfaction zones, and target customer retention efforts.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-10">
+
+    <!-- TAB 1: DEFAULT CLEANED DASHBOARD -->
+    <div id="dashboard-content" class="tab-content block">
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Total Passengers</div>
+          <div class="font-display text-3xl font-bold text-cohereBlack">129,880</div>
+          <p class="text-[11px] text-mutedSlate mt-1.5 border-t border-hairline/40 pt-1.5">Cleaned survey responses</p>
+        </div>
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Loss (Dissatisfied) Rate
+          </div>
+          <div class="font-display text-3xl font-bold text-coral">56.55%</div>
+          <p class="text-[11px] text-mutedSlate mt-1.5 border-t border-hairline/40 pt-1.5"><span
+              class="text-coral font-semibold">73,452 passengers</span> unsatisfied</p>
+        </div>
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Retention (Satisfied) Rate
+          </div>
+          <div class="font-display text-3xl font-bold text-deepGreen">43.45%</div>
+          <p class="text-[11px] text-mutedSlate mt-1.5 border-t border-hairline/40 pt-1.5"><span
+              class="text-deepGreen font-semibold">56,428 passengers</span> satisfied</p>
+        </div>
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Economy Loss Rate</div>
+          <div class="font-display text-3xl font-bold text-nearBlack">81.23%</div>
+          <p class="text-[11px] text-mutedSlate mt-1.5 border-t border-hairline/40 pt-1.5"><span
+              class="text-coral font-semibold">47,366 Economy seats</span> dissatisfied</p>
+        </div>
+      </div>
+
+      <!-- Row 1: Satisfaction Split & Segment Loss -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Satisfaction Split (Donut Chart) -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between h-[360px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Metric breakdown</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Overall Satisfaction Split</h3>
+            <p class="text-xs text-mutedSlate">Proportion of satisfied vs. dissatisfied passengers.</p>
+          </div>
+          <div id="chart-overall-split" class="my-auto"></div>
+          <div class="border-t border-hairline/40 pt-3 flex justify-between items-center text-xs font-mono">
+            <span class="text-deepGreen flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-deepGreen"></span> 43.4% Satisfied</span>
+            <span class="text-coral flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-coral"></span> 56.6%
+              Loss</span>
+          </div>
+        </div>
+
+        <!-- Loss Rate by Segment (Bar Chart) -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between lg:col-span-2 h-[360px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Comparative view</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Loss Rate by Passenger Segments</h3>
+            <p class="text-xs text-mutedSlate">Percentage of dissatisfied passengers in each segment. Personal travel &
+              Economy represent extreme risk.</p>
+          </div>
+          <div id="chart-segment-loss" class="flex-1 flex items-center justify-center"></div>
+        </div>
+      </div>
+
+      <!-- Row 2: Age demographics & Flight Delay Impact -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Satisfaction count by Age Group (Stacked Column) -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between h-[380px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Age demographics</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Satisfaction Split by Age Group</h3>
+            <p class="text-xs text-mutedSlate">Absolute passenger counts. Youth (Under 18) and elderly (Over 60) show
+              highest relative dissatisfaction rates.</p>
+          </div>
+          <div id="chart-age-satisfaction" class="flex-1 flex items-center justify-center"></div>
+        </div>
+
+        <!-- Delay Averages (Grouped Column) -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between h-[380px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Operational variables</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Average Flight Delay Impact</h3>
+            <p class="text-xs text-mutedSlate">Dissatisfied passengers experience 30%+ longer departure and arrival
+              delays on average.</p>
+          </div>
+          <div id="chart-delay-impact" class="flex-1 flex items-center justify-center"></div>
+        </div>
+      </div>
+
+      <!-- Row 3: Service Rating Gaps -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Service Rating Gaps Bar Chart -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 lg:col-span-2 flex flex-col justify-between shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Leverage diagnosis</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Service Rating Gaps Map</h3>
+            <p class="text-xs text-mutedSlate">Difference in average scores. Larger gaps identify service areas that
+              strongly differentiate happy vs. unhappy flyers.</p>
+          </div>
+          <div id="chart-rating-gaps" class="my-4"></div>
+          <div class="border-t border-hairline/40 pt-3 flex items-center justify-between text-xs font-mono">
+            <span class="text-coral flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-coral inline-block"></span> High Gap (&ge;0.8)</span>
+            <span class="text-actionBlue flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-actionBlue inline-block"></span> Mid Gap (0.4 - 0.8)</span>
+            <span class="text-slate flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-slate inline-block"></span> Low/Negative Gap (<0.4)< /span>
+          </div>
+        </div>
+
+        <!-- Strategic Findings & Data Table -->
+        <div class="flex flex-col gap-4">
+          <!-- Key Finding 1 -->
+          <div class="bg-paleGreen border border-deepGreen/20 rounded-md p-5 text-deepGreen shadow-sm">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="info" class="w-4 h-4 text-deepGreen"></i>
+              <span class="font-mono text-xs font-bold uppercase tracking-wider">Top Priority</span>
+            </div>
+            <h4 class="font-display font-bold text-sm mb-1 text-cohereBlack">Online Boarding is Key</h4>
+            <p class="text-xs leading-relaxed opacity-90">
+              With a massive gap of <strong class="font-semibold text-cohereBlack">1.37 rating points</strong>, Online
+              Boarding is the strongest separator of satisfied passengers. Streamlining mobile onboarding should be the
+              primary operation goal.
+            </p>
+          </div>
+
+          <!-- Key Finding 2 -->
+          <div class="bg-paleBlue border border-actionBlue/20 rounded-md p-5 text-actionBlue shadow-sm">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-actionBlue"></i>
+              <span class="font-mono text-xs font-bold uppercase tracking-wider">Convenience Paradox</span>
+            </div>
+            <h4 class="font-display font-bold text-sm mb-1 text-cohereBlack">Convenience &ne; Satisfaction</h4>
+            <p class="text-xs leading-relaxed opacity-90">
+              Intriguingly, "Gate Location" and "Departure/Arrival Time Convenience" exhibit negative gaps. Dissatisfied
+              passengers score convenience identical or slightly higher, proving flight delays matter less than onboard
+              quality.
+            </p>
+          </div>
+
+          <!-- Sorted Rating Averages Table -->
+          <div class="border border-borderLight rounded-md bg-white p-5 flex-1 shadow-sm">
+            <h3 class="font-display text-sm font-bold text-nearBlack mb-3">Ranking of Satisfaction Drivers</h3>
+            <div class="overflow-y-auto max-h-[180px] pr-2">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="border-b border-hairline/80 pb-2">
+                    <th class="font-mono uppercase text-mutedSlate pb-2">Service Area</th>
+                    <th class="font-mono uppercase text-right text-mutedSlate pb-2">Gap</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-hairline/40 font-medium text-nearBlack" id="gaps-table-body">
+                  <!-- Javascript Populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: CUSTOMIZE & EXPLORE (DYNAMIC DASHBOARD) -->
+    <div id="customize-content" class="tab-content hidden">
+
+      <!-- Filter Panel Container -->
+      <div id="filter-controls-box"
+        class="border border-borderLight rounded-md bg-white p-5 mb-8 shadow-sm transition-all">
+        <div class="flex items-center justify-between border-b border-hairline pb-3 mb-4">
+          <h3 class="font-display text-sm font-bold text-nearBlack flex items-center gap-1.5">
+            <i data-lucide="sliders-horizontal" class="w-4 h-4"></i> Interactive Filter Controls
+          </h3>
+          <button onclick="resetFilters()"
+            class="text-xs font-mono text-coral hover:underline flex items-center gap-1 cursor-pointer">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Reset Filters
+          </button>
+        </div>
+
+        <!-- Filters Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-xs">
+
+          <!-- Column 1: Demographics -->
+          <div class="space-y-3.5">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate font-bold block">1.
+              Demographics</span>
+            <div>
+              <label class="block font-medium text-slate mb-1.5">Gender</label>
+              <div class="flex flex-wrap gap-1.5" id="pill-gender">
+                <button type="button" id="pill-gender-all" onclick="setPillFilter(this, 'gender', 'All')"
+                  class="px-3.5 py-1.5 rounded-full border border-nearBlack bg-nearBlack text-white text-xs font-semibold transition-all focus:outline-none cursor-pointer">All</button>
+                <button type="button" onclick="setPillFilter(this, 'gender', 'Male')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Male</button>
+                <button type="button" onclick="setPillFilter(this, 'gender', 'Female')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Female</button>
+              </div>
+              <input type="hidden" id="filter-gender" value="All">
+            </div>
+            <div>
+              <label class="block font-medium text-slate mb-1.5">Customer Type</label>
+              <div class="flex flex-wrap gap-1.5" id="pill-customer">
+                <button type="button" id="pill-customer-all" onclick="setPillFilter(this, 'customer', 'All')"
+                  class="px-3.5 py-1.5 rounded-full border border-nearBlack bg-nearBlack text-white text-xs font-semibold transition-all focus:outline-none cursor-pointer">All</button>
+                <button type="button" onclick="setPillFilter(this, 'customer', 'Returning')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Returning</button>
+                <button type="button" onclick="setPillFilter(this, 'customer', 'First-time')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">First-time</button>
+              </div>
+              <input type="hidden" id="filter-customer" value="All">
+            </div>
+          </div>
+
+          <!-- Column 2: Flight Specifics -->
+          <div class="space-y-3.5">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate font-bold block">2. Trip
+              Specs</span>
+            <div>
+              <label class="block font-medium text-slate mb-1.5">Travel Class</label>
+              <div class="flex flex-wrap gap-1.5" id="pill-class">
+                <button type="button" id="pill-class-all" onclick="setPillFilter(this, 'class', 'All')"
+                  class="px-3.5 py-1.5 rounded-full border border-nearBlack bg-nearBlack text-white text-xs font-semibold transition-all focus:outline-none cursor-pointer">All</button>
+                <button type="button" onclick="setPillFilter(this, 'class', 'Business')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Business</button>
+                <button type="button" onclick="setPillFilter(this, 'class', 'Economy')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Economy</button>
+                <button type="button" onclick="setPillFilter(this, 'class', 'Economy Plus')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Eco
+                  Plus</button>
+              </div>
+              <input type="hidden" id="filter-class" value="All">
+            </div>
+            <div>
+              <label class="block font-medium text-slate mb-1.5">Type of Travel</label>
+              <div class="flex flex-wrap gap-1.5" id="pill-travel">
+                <button type="button" id="pill-travel-all" onclick="setPillFilter(this, 'travel', 'All')"
+                  class="px-3.5 py-1.5 rounded-full border border-nearBlack bg-nearBlack text-white text-xs font-semibold transition-all focus:outline-none cursor-pointer">All</button>
+                <button type="button" onclick="setPillFilter(this, 'travel', 'Business')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Business</button>
+                <button type="button" onclick="setPillFilter(this, 'travel', 'Personal')"
+                  class="px-3.5 py-1.5 rounded-full border border-hairline bg-transparent text-slate hover:border-nearBlack hover:text-nearBlack text-xs font-semibold transition-all focus:outline-none cursor-pointer">Personal</button>
+              </div>
+              <input type="hidden" id="filter-travel" value="All">
+            </div>
+          </div>
+
+          <!-- Column 3: Service Ratings (Threshold filter >= X) -->
+          <div class="space-y-3.5">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate font-bold block">3. Service
+              Performance Thresholds</span>
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-medium text-slate">In-flight Wifi (&ge;)</label>
+                <span id="lbl-filter-wifi" class="font-mono font-bold text-nearBlack">0</span>
+              </div>
+              <input type="range" id="filter-wifi" min="0" max="5" value="0"
+                oninput="document.getElementById('lbl-filter-wifi').innerText = this.value; updateDynamicDashboard()">
+            </div>
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-medium text-slate">Online Boarding (&ge;)</label>
+                <span id="lbl-filter-boarding" class="font-mono font-bold text-nearBlack">0</span>
+              </div>
+              <input type="range" id="filter-boarding" min="0" max="5" value="0"
+                oninput="document.getElementById('lbl-filter-boarding').innerText = this.value; updateDynamicDashboard()">
+            </div>
+          </div>
+
+          <!-- Column 4: Bounds -->
+          <div class="space-y-3.5">
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate font-bold block">4. Age &amp;
+              Delay bounds</span>
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-medium text-slate">Maximum Age (&le;)</label>
+                <span id="lbl-filter-age" class="font-mono font-bold text-nearBlack">85</span>
+              </div>
+              <input type="range" id="filter-age" min="7" max="85" value="85"
+                oninput="document.getElementById('lbl-filter-age').innerText = this.value; updateDynamicDashboard()">
+            </div>
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label class="font-medium text-slate">Maximum Delay (&le;)</label>
+                <span id="lbl-filter-delay" class="font-mono font-bold text-nearBlack">180m</span>
+              </div>
+              <input type="range" id="filter-delay" min="0" max="180" value="180"
+                oninput="document.getElementById('lbl-filter-delay').innerText = this.value + 'm'; updateDynamicDashboard()">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dynamic Status Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-4 border-b border-hairline gap-2">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-widest text-coral font-semibold">FILTERED ANALYSIS
+            REPORT</span>
+          <h2 class="font-display text-2xl font-bold tracking-tight text-cohereBlack" id="dyn-status-text">Recalculating
+            statistics...</h2>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs text-mutedSlate">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 animate-spin hidden" id="dyn-refresh-icon"></i>
+          <span id="dyn-status-badge"
+            class="font-mono font-semibold text-[10px] bg-softStone px-2 py-0.5 rounded border border-hairline uppercase">Active</span>
+        </div>
+      </div>
+
+      <!-- Dynamic KPIs -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Total Passengers</div>
+          <div class="font-display text-3xl font-bold text-cohereBlack" id="dyn-kpi-total">-</div>
+          <p class="text-[11px] text-mutedSlate mt-1.5 border-t border-hairline/40 pt-1.5">Matching filter conditions
+          </p>
+        </div>
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Loss (Dissatisfied) Rate
+          </div>
+          <div class="font-display text-3xl font-bold text-coral" id="dyn-kpi-loss-rate">-</div>
+          <p class="text-[11px] mt-1.5 border-t border-hairline/40 pt-1.5 text-coral text-xs font-semibold"
+            id="dyn-kpi-loss-count">-</p>
+        </div>
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Retention (Satisfied) Rate
+          </div>
+          <div class="font-display text-3xl font-bold text-deepGreen" id="dyn-kpi-sat-rate">-</div>
+          <p class="text-[11px] mt-1.5 border-t border-hairline/40 pt-1.5 text-deepGreen text-xs font-semibold"
+            id="dyn-kpi-sat-count">-</p>
+        </div>
+        <div class="border border-borderLight rounded-md p-5 bg-white shadow-sm">
+          <div class="text-[10px] font-mono uppercase tracking-wider text-mutedSlate mb-1">Economy Loss Rate</div>
+          <div class="font-display text-3xl font-bold text-nearBlack" id="dyn-kpi-eco-rate">-</div>
+          <p class="text-[11px] mt-1.5 border-t border-hairline/40 pt-1.5 text-mutedSlate text-xs font-semibold"
+            id="dyn-kpi-eco-count">-</p>
+        </div>
+      </div>
+
+      <!-- Dynamic Row 1: Satisfaction Split & Segment Loss -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Satisfaction Split Donut -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between h-[360px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Metric breakdown</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Overall Satisfaction Split</h3>
+          </div>
+          <div id="dynamic-chart-overall-split" class="my-auto"></div>
+          <div class="border-t border-hairline/40 pt-3 flex justify-between items-center text-xs font-mono">
+            <span class="text-deepGreen flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-deepGreen"></span> Satisfied</span>
+            <span class="text-coral flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded bg-coral"></span>
+              Loss</span>
+          </div>
+        </div>
+
+        <!-- Segment Loss Bar Chart -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between lg:col-span-2 h-[360px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Comparative view</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Loss Rate by Passenger Segments</h3>
+          </div>
+          <div id="dynamic-chart-segment-loss" class="flex-1 flex items-center justify-center"></div>
+        </div>
+      </div>
+
+      <!-- Dynamic Row 2: Age demographics & Delay Impact -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Satisfaction count by Age Group (Stacked Column) -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between h-[380px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Age demographics</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Satisfaction Split by Age Group</h3>
+          </div>
+          <div id="dynamic-chart-age-satisfaction" class="flex-1 flex items-center justify-center"></div>
+        </div>
+
+        <!-- Delay Averages (Grouped Column) -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between h-[380px] shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Operational variables</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Average Flight Delay Impact</h3>
+          </div>
+          <div id="dynamic-chart-delay-impact" class="flex-1 flex items-center justify-center"></div>
+        </div>
+      </div>
+
+      <!-- Dynamic Row 3: Service Rating Gaps -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Service Rating Gaps Bar Chart -->
+        <div
+          class="border border-borderLight rounded-md bg-white p-5 lg:col-span-2 flex flex-col justify-between shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Leverage diagnosis</span>
+            <h3 class="font-display text-md font-bold text-nearBlack mb-1">Service Rating Gaps Map</h3>
+          </div>
+          <div id="dynamic-chart-rating-gaps" class="my-4"></div>
+          <div class="border-t border-hairline/40 pt-3 flex items-center justify-between text-xs font-mono">
+            <span class="text-coral flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-coral inline-block"></span> High Gap (&ge;0.8)</span>
+            <span class="text-actionBlue flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-actionBlue inline-block"></span> Mid Gap (0.4 - 0.8)</span>
+            <span class="text-slate flex items-center gap-1.5"><span
+                class="w-2.5 h-2.5 rounded bg-slate inline-block"></span> Low/Negative Gap (<0.4)< /span>
+          </div>
+        </div>
+
+        <!-- Dynamic Gaps List Table -->
+        <div class="border border-borderLight rounded-md bg-white p-5 flex flex-col justify-between shadow-sm">
+          <div>
+            <span class="font-mono text-[9px] uppercase tracking-wider text-mutedSlate">Recalculated ranking</span>
+            <h3 class="font-display text-sm font-bold text-nearBlack mb-3">Ranking of Satisfaction Drivers</h3>
+          </div>
+          <div class="overflow-y-auto max-h-[300px] pr-2">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-hairline/80 pb-2">
+                  <th class="font-mono uppercase text-mutedSlate pb-2">Service Area</th>
+                  <th class="font-mono uppercase text-right text-mutedSlate pb-2">Gap</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-hairline/40 font-medium text-nearBlack" id="dyn-gaps-table-body">
+                <!-- Javascript Populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 3: DOCS -->
+    <div id="docs-content" class="tab-content hidden">
+      <div class="max-w-4xl mx-auto border border-borderLight rounded-md bg-white p-8 md:p-12 shadow-sm">
+        <span class="font-mono text-xs uppercase tracking-widest text-coral font-bold mb-3 block">DOCUMENTATION</span>
+        <h1
+          class="font-display text-3xl md:text-5xl font-bold tracking-tight text-cohereBlack mb-6 pb-4 border-b border-hairline">
+          Airline Passenger Satisfaction — Data Analysis
+        </h1>
+
+        <div class="prose max-w-none text-ink text-sm leading-relaxed space-y-6">
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Overview
+            </h2>
+            <p class="text-slate">
+              This project analyzes airline passenger survey data (~130,000 responses) to understand what factors drive
+              passenger satisfaction, and to test whether satisfaction can be predicted reliably from passenger and
+              service data.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Research Question
+            </h2>
+            <p class="text-slate">
+              Which passenger and service factors most strongly predict whether a passenger is satisfied or
+              dissatisfied, and can this be predicted reliably enough to act on?
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Why This Matters
+            </h2>
+            <p class="text-slate">
+              Airlines collect satisfaction survey data but often analyze it only after the fact. This project turns
+              that data into a predictive tool: given a passenger's profile and service ratings, it estimates their
+              likely satisfaction — helping identify which service areas most affect retention.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Dataset
+            </h2>
+            <ul class="list-disc pl-5 space-y-1.5 text-slate">
+              <li>Source: airline passenger satisfaction survey data (<code
+                  class="font-mono text-xs bg-softStone px-1.5 py-0.5 rounded text-nearBlack">airline_passenger_satisfaction.csv</code>)
+              </li>
+              <li>~129,880 rows, 24 columns: demographics, trip details, service ratings (0–5 scale), and the target
+                variable <code
+                  class="font-mono text-xs bg-softStone px-1.5 py-0.5 rounded text-nearBlack">Satisfaction</code>
+                (Satisfied / Neutral or Dissatisfied)</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Methodology
+            </h2>
+            <ol class="list-decimal pl-5 space-y-2 text-slate">
+              <li><strong>Data cleaning</strong> — filled missing Arrival Delay values (393 rows) using the median,
+                since the column has extreme outliers that would skew the mean.</li>
+              <li><strong>Exploratory data analysis</strong> — inspected shape, dtypes, duplicates, target balance, and
+                distributions across key variables (Age, Class, Customer Type, Type of Travel).</li>
+              <li><strong>Visualization</strong> — histograms, bar charts, boxplots, and a correlation heatmap to
+                surface relationships between features and satisfaction.</li>
+              <li>
+                <strong>Statistical testing</strong> —
+                <ul class="list-disc pl-5 mt-1 space-y-1">
+                  <li>Chi-square test confirming a significant relationship between Class and Satisfaction (χ² ≈ 32,906,
+                    p &lt; 0.001)</li>
+                  <li>Independent t-test confirming satisfied passengers are, on average, significantly older than
+                    dissatisfied passengers (t ≈ 48.76, p &lt; 0.001)</li>
+                </ul>
+              </li>
+              <li><strong>Modeling</strong> — trained and compared six classifiers to predict Satisfaction from
+                passenger and service features: Random Forest, XGBoost, AdaBoost, Logistic Regression, KNN, and SVC.
+              </li>
+            </ol>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Results
+            </h2>
+            <div class="overflow-x-auto my-3 border border-borderLight rounded-md shadow-sm">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-softStone/30 border-b border-hairline font-mono text-mutedSlate uppercase">
+                    <th class="py-2.5 px-4">Model</th>
+                    <th class="py-2.5 px-4 text-right">Accuracy</th>
+                    <th class="py-2.5 px-4 text-right">Precision</th>
+                    <th class="py-2.5 px-4 text-right">Recall</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-hairline/45 font-medium text-nearBlack">
+                  <tr class="hover:bg-softStone/20 transition-colors">
+                    <td class="py-2.5 px-4 font-semibold text-cohereBlack">XGBoost</td>
+                    <td class="py-2.5 px-4 text-right font-mono text-deepGreen">96.4%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">97.1%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">94.5%</td>
+                  </tr>
+                  <tr class="hover:bg-softStone/20 transition-colors">
+                    <td class="py-2.5 px-4 font-semibold text-cohereBlack">Random Forest</td>
+                    <td class="py-2.5 px-4 text-right font-mono text-deepGreen">96.3%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">97.1%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">94.1%</td>
+                  </tr>
+                  <tr class="hover:bg-softStone/20 transition-colors">
+                    <td class="py-2.5 px-4 font-semibold text-cohereBlack">AdaBoost</td>
+                    <td class="py-2.5 px-4 text-right font-mono">92.3%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">92.0%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">90.0%</td>
+                  </tr>
+                  <tr class="hover:bg-softStone/20 transition-colors">
+                    <td class="py-2.5 px-4 font-semibold text-cohereBlack">Logistic Regression</td>
+                    <td class="py-2.5 px-4 text-right font-mono">87.4%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">86.7%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">83.8%</td>
+                  </tr>
+                  <tr class="hover:bg-softStone/20 transition-colors">
+                    <td class="py-2.5 px-4 font-semibold text-cohereBlack">KNN</td>
+                    <td class="py-2.5 px-4 text-right font-mono">74.7%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">76.2%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">60.6%</td>
+                  </tr>
+                  <tr class="hover:bg-softStone/20 transition-colors">
+                    <td class="py-2.5 px-4 font-semibold text-cohereBlack">SVC</td>
+                    <td class="py-2.5 px-4 text-right font-mono text-coral">59.8%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">75.9%</td>
+                    <td class="py-2.5 px-4 text-right font-mono">10.5%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-slate mt-2">
+              XGBoost and Random Forest substantially outperform the ~57% baseline of guessing the majority class,
+              confirming satisfaction can be predicted reliably. Tree-based ensembles clearly outperform distance-based
+              methods (KNN, SVC), which are sensitive to unscaled features.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Key Findings
+            </h2>
+            <ul class="list-disc pl-5 space-y-1.5 text-slate">
+              <li>Business class passengers are mostly satisfied; Economy passengers are overwhelmingly dissatisfied —
+                Class is one of the strongest drivers of satisfaction.</li>
+              <li>Older, returning ("loyal") customers tend to be more satisfied than younger, first-time travelers.
+              </li>
+              <li>Departure/Arrival Delay shows a weaker relationship with satisfaction than service-quality factors.
+              </li>
+              <li>Model choice matters: tree-based ensembles (XGBoost, Random Forest, AdaBoost) handle this dataset's
+                mixed feature scales far better than distance-based models (KNN, SVC).</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> How to Run
+            </h2>
+            <pre class="bg-nearBlack text-softStone font-mono text-xs p-4 rounded-md overflow-x-auto space-y-1"><code>python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+jupyter lab</code></pre>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Reflection
+            </h2>
+            <ul class="list-disc pl-5 space-y-1.5 text-slate">
+              <li><strong>What was easy:</strong> exploratory analysis and visualization, since the dataset was already
+                clean and well-structured.</li>
+              <li><strong>What was challenging:</strong> handling encoded/text columns consistently across cleaning,
+                visualization, and modeling steps without breaking earlier cells.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="font-display text-xl font-bold text-nearBlack mb-2 flex items-center gap-2">
+              <span class="w-1.5 h-6 bg-coral rounded-xs inline-block"></span> Next Steps
+            </h2>
+            <ul class="list-disc pl-5 space-y-1.5 text-slate">
+              <li>Tune XGBoost hyperparameters for further gains beyond the current 96.4% accuracy.</li>
+              <li>Apply feature scaling improvements to boost KNN and SVC performance.</li>
+              <li>Wrap the trained model in a small interactive app so a user can input passenger details and get a live
+                satisfaction prediction.</li>
+              <li>Publish the project via GitHub Pages for a public-facing summary.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-hairline bg-white py-8 text-xs text-mutedSlate">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 font-mono">
+      <div>
+        <span>Airline Passenger Satisfaction Analysis Dashboard &bull; Cleaned Survey Data</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <span>July 2026</span>
+        <span>&bull;</span>
+        <span>Agrima Sharma</span>
+        <span>&bull;</span>
+        <a href="https://github.com/AGR533/aviations-satisfcations-analysis" target="_blank"
+          class="hover:text-nearBlack underline">GitHub Codebase</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Page Scripts containing Data and Chart renderers -->
+  <script src="script.js"></script>
+</body>
+
+</html>
