@@ -1,0 +1,223 @@
+{
+  "total_passengers": 129880,
+  "satisfied_count": 56428,
+  "dissatisfied_count": 73452,
+  "satisfaction_rate": 43.44625808438558,
+  "dissatisfied_rate": 56.55374191561441,
+  "segments": {
+    "Class": [
+      {
+        "value": "Business",
+        "total": 62160,
+        "satisfied": 43166,
+        "dissatisfied": 18994,
+        "loss_rate": 30.556628056628053
+      },
+      {
+        "value": "Economy",
+        "total": 58309,
+        "satisfied": 10943,
+        "dissatisfied": 47366,
+        "loss_rate": 81.23274280128282
+      },
+      {
+        "value": "Economy Plus",
+        "total": 9411,
+        "satisfied": 2319,
+        "dissatisfied": 7092,
+        "loss_rate": 75.35862288810966
+      }
+    ],
+    "Type of Travel": [
+      {
+        "value": "Business",
+        "total": 89693,
+        "satisfied": 52356,
+        "dissatisfied": 37337,
+        "loss_rate": 41.62755175989208
+      },
+      {
+        "value": "Personal",
+        "total": 40187,
+        "satisfied": 4072,
+        "dissatisfied": 36115,
+        "loss_rate": 89.86737004503944
+      }
+    ],
+    "Customer Type": [
+      {
+        "value": "First-time",
+        "total": 23780,
+        "satisfied": 5700,
+        "dissatisfied": 18080,
+        "loss_rate": 76.03027754415476
+      },
+      {
+        "value": "Returning",
+        "total": 106100,
+        "satisfied": 50728,
+        "dissatisfied": 55372,
+        "loss_rate": 52.188501413760605
+      }
+    ],
+    "Gender": [
+      {
+        "value": "Male",
+        "total": 63981,
+        "satisfied": 28159,
+        "dissatisfied": 35822,
+        "loss_rate": 55.98849658492365
+      },
+      {
+        "value": "Female",
+        "total": 65899,
+        "satisfied": 28269,
+        "dissatisfied": 37630,
+        "loss_rate": 57.10253569856902
+      }
+    ],
+    "Age Group": [
+      {
+        "value": "46-60",
+        "total": 37464,
+        "satisfied": 21515,
+        "dissatisfied": 15949,
+        "loss_rate": 42.571535340593634
+      },
+      {
+        "value": "31-45",
+        "total": 41482,
+        "satisfied": 20246,
+        "dissatisfied": 21236,
+        "loss_rate": 51.19328865532038
+      },
+      {
+        "value": "18-30",
+        "total": 31033,
+        "satisfied": 10927,
+        "dissatisfied": 20106,
+        "loss_rate": 64.78909547900622
+      },
+      {
+        "value": "Under 18",
+        "total": 9847,
+        "satisfied": 1647,
+        "dissatisfied": 8200,
+        "loss_rate": 83.27409363257846
+      },
+      {
+        "value": "Over 60",
+        "total": 10054,
+        "satisfied": 2093,
+        "dissatisfied": 7961,
+        "loss_rate": 79.18241495922021
+      }
+    ]
+  },
+  "ratings_analysis": [
+    {
+      "service": "Online Boarding",
+      "satisfied_avg": 4.025855958035018,
+      "dissatisfied_avg": 2.6586205957632196,
+      "gap": 1.3672353622717988,
+      "overall_avg": 3.252633199876809
+    },
+    {
+      "service": "In-flight Entertainment",
+      "satisfied_avg": 3.96420216913589,
+      "dissatisfied_avg": 2.8924331536241357,
+      "gap": 1.0717690155117543,
+      "overall_avg": 3.358076686171851
+    },
+    {
+      "service": "Seat Comfort",
+      "satisfied_avg": 3.9664173814418375,
+      "dissatisfied_avg": 3.037997603877362,
+      "gap": 0.9284197775644754,
+      "overall_avg": 3.4413612565445026
+    },
+    {
+      "service": "On-board Service",
+      "satisfied_avg": 3.856170695399447,
+      "dissatisfied_avg": 3.0195365680988946,
+      "gap": 0.8366341273005524,
+      "overall_avg": 3.3830227902679395
+    },
+    {
+      "service": "Leg Room Service",
+      "satisfied_avg": 3.8200538739632806,
+      "dissatisfied_avg": 2.990442738114687,
+      "gap": 0.8296111358485936,
+      "overall_avg": 3.3508777332922697
+    },
+    {
+      "service": "Cleanliness",
+      "satisfied_avg": 3.7465088254058267,
+      "dissatisfied_avg": 2.9327996514730708,
+      "gap": 0.813709173932756,
+      "overall_avg": 3.286325839236218
+    },
+    {
+      "service": "In-flight Wifi Service",
+      "satisfied_avg": 3.158609201105834,
+      "dissatisfied_avg": 2.3984234602189183,
+      "gap": 0.7601857408869157,
+      "overall_avg": 2.7286957191253465
+    },
+    {
+      "service": "Check-in Service",
+      "satisfied_avg": 3.649004040547246,
+      "dissatisfied_avg": 3.042966835484398,
+      "gap": 0.6060372050628482,
+      "overall_avg": 3.3062673236834
+    },
+    {
+      "service": "Baggage Handling",
+      "satisfied_avg": 3.9669135889983695,
+      "dissatisfied_avg": 3.3749115068343953,
+      "gap": 0.5920020821639742,
+      "overall_avg": 3.632114259316292
+    },
+    {
+      "service": "In-flight Service",
+      "satisfied_avg": 3.9709895796413126,
+      "dissatisfied_avg": 3.3896013723247833,
+      "gap": 0.5813882073165293,
+      "overall_avg": 3.6421927933477054
+    },
+    {
+      "service": "Food and Drink",
+      "satisfied_avg": 3.5254483589707237,
+      "dissatisfied_avg": 2.958421826498938,
+      "gap": 0.5670265324717856,
+      "overall_avg": 3.2047736372035724
+    },
+    {
+      "service": "Ease of Online Booking",
+      "satisfied_avg": 3.026954703338768,
+      "dissatisfied_avg": 2.5493928007406197,
+      "gap": 0.47756190259814835,
+      "overall_avg": 2.7568755774561136
+    },
+    {
+      "service": "Gate Location",
+      "satisfied_avg": 2.9728503579783085,
+      "dissatisfied_avg": 2.9800550019060066,
+      "gap": -0.00720464392769804,
+      "overall_avg": 2.976924853711118
+    },
+    {
+      "service": "Departure and Arrival Time Convenience",
+      "satisfied_avg": 2.963067980435245,
+      "dissatisfied_avg": 3.13022109677068,
+      "gap": -0.16715311633543495,
+      "overall_avg": 3.0575993224514937
+    }
+  ],
+  "delay_analysis": {
+    "avg_departure_delay_satisfied": 12.509782377543063,
+    "avg_departure_delay_dissatisfied": 16.406837118117956,
+    "avg_arrival_delay_satisfied": 12.496987311263911,
+    "avg_arrival_delay_dissatisfied": 17.00328105429396
+  }
+}
