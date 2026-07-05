@@ -1,0 +1,75 @@
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #d9d9dd;
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #75758a;
+}
+
+/* Custom input slider styling to match Cohere */
+input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: #e5e7eb;
+    border-radius: 2px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background: #17171c;
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5px;
+    transition: transform 0.1s ease;
+}
+
+input[type=range]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    background: #ff7759;
+}
+
+/* Floating Dynamic Island Animations */
+@keyframes island-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    30% {
+        transform: scale(0.96);
+    }
+
+    60% {
+        transform: scale(1.03);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.island-active {
+    animation: island-pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
