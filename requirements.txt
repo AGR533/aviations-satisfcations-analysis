@@ -5,3 +5,7 @@ seaborn
 scipy
 scikit-learn
 jupyterlab
+xgboost
+streamlit
+plotly
+joblib
