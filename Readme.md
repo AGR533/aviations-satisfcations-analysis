@@ -81,6 +81,43 @@ Run the interactive prediction app:
 
     streamlit run app.py
 
+## Prediction API & Deployment
+
+The trained model is served two ways:
+
+- **Streamlit app (`app.py`)** — an interactive demo for exploring predictions in the browser.
+- **REST API (`api.py`)** — a FastAPI backend that exposes the model as an endpoint other
+  programs and frontends can call.
+
+### API endpoints
+
+| Method | Route      | Description                                                                                         |
+| ------ | ---------- | --------------------------------------------------------------------------------------------------- |
+| `POST` | `/predict` | Send a passenger profile + service ratings as JSON; returns `{prediction, satisfied, confidence}`.  |
+| `GET`  | `/health`  | Health check.                                                                                       |
+| `GET`  | `/docs`    | Interactive API documentation (Swagger UI).                                                         |
+
+Run the API locally:
+
+    pip install -r requirements-api.txt
+    uvicorn api:app --reload
+    # docs at http://127.0.0.1:8000/docs
+
+Example request:
+
+    curl -X POST http://127.0.0.1:8000/predict \
+      -H "Content-Type: application/json" \
+      -d '{"Class":"Business","Customer Type":"Returning","Type of Travel":"Business","Online Boarding":5,"Seat Comfort":5}'
+
+### Deployment
+
+- **Frontend** — published via **GitHub Pages**: the `index.html` dashboard and the `predictor.html`
+  live predictor.
+- **Backend** — the API is deployed on **Railway** as a hosted service; `predictor.html` calls its
+  `/predict` endpoint from the browser for end-to-end live predictions.
+
+See `DEPLOY_API.md` for full step-by-step deployment instructions.
+
 ## Reflection
 
 - **What was easy:** exploratory analysis and visualization, since the dataset was already clean
@@ -92,6 +129,4 @@ Run the interactive prediction app:
 
 - Tune XGBoost hyperparameters for further gains beyond the current 96.4% accuracy.
 - Apply feature scaling improvements to boost KNN and SVC performance.
-- Wrap the trained model in a small interactive app so a user can input passenger details and get
-  a live satisfaction prediction. *(done — see `app.py`)*
-- Publish the project via GitHub Pages for a public-facing summary. *(done)*
+- Add authentication and request logging to the prediction API for production use.
